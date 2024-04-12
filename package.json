@@ -22,7 +22,13 @@
     "storybook:build": "npm run analyze -- --exclude dist && build-storybook"
   },
   "dependencies": {
-    "lit": "^2.0.2"
+    "@lion/button": "^0.18.1",
+    "@lion/ui": "^0.6.1",
+    "@lit/reactive-element": "^2.0.4",
+    "ing-web": "^4.0.1",
+    "lit": "^2.0.2",
+    "lit-element": "^4.0.4",
+    "lit-html": "^3.1.2"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.4.17",
