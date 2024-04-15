@@ -1,29 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-GB">
-<head>
-  <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        background: #fafafa;
+      }
+    </style>
+  </head>
+  <title>User Authentication</title>
   <style>
-    body {
-      background: #fafafa;
+    #userDetails{
+      list-style-type: none;
+      padding: 0px;
+      display: grid;
+      gap: 1rem;
+      align-items: center;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      width: 100%;
     }
   </style>
-</head>
-<body>
-  <div id="demo"></div>
-
-  <script type="module">
-    import { html, render } from 'lit';
-    import '../login-logout.js';
-
-    const header = 'Hello owc World!';
-    render(
-      html`
-        <login-logout .header=${header}>
-          some light-dom
-        </login-logout>
-      `,
-      document.querySelector('#demo')
-    );
-  </script>
-</body>
+  </head>
+  <body style="margin:auto">
+    <login-logout></login-logout>
+    <user-details></user-details>
+      <div id="userDetailsContent"></div>
+      <div id="userDetails"></div>
+    <script type="module" src="../login-logout.js">
+    </script>
+  </body>
 </html>
