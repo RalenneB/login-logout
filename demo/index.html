@@ -9,26 +9,24 @@
     </style>
   </head>
   <title>User Authentication</title>
-  <!-- <script type="module" src="./user-details.js"></script> -->
+  <style>
+    #userDetails{
+      list-style-type: none;
+      padding: 0px;
+      display: grid;
+      gap: 1rem;
+      align-items: center;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      width: 100%;
+    }
+  </style>
   </head>
   <body style="margin:auto">
-    <!-- <login-logout></login-logout> -->
-    <div id="demo"></div>
-    <!-- Scripts -->
-    <script type="module">
-      import { html, render } from 'lit';
-      // import '../login-logout.js';
-      // eslint-disable-next-line no-unused-vars
-      import { LoginLogout } from '../login-logout.js'
-      import '../user-details.js';
-      // import '../LoginForm.js';
-
-      const header = 'Hello there, dear frontend!';
-      render(
-        html` <login-logout .header=${header}> some light-dom</login-logout>`,
-        document.querySelector('#demo')
-        
-      );
+    <login-logout></login-logout>
+    <user-details></user-details>
+      <div id="userDetailsContent"></div>
+      <div id="userDetails"></div>
+    <script type="module" src="../login-logout.js">
     </script>
   </body>
 </html>

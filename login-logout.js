@@ -3,29 +3,28 @@ import { LitElement, html } from 'lit';
 import '@lion/ui/define/lion-button.js';
 import '@lion/ui/define/lion-button-submit.js';
 import '@lion/ui/define/lion-input.js';
-import '@lion/ui/define/lion-icon.js';
+// import '@lion/ui/define/lion-icon.js';
 import { nothing } from 'lit-html';
-import {
-  // dispatchCustomEvent,
-  wiseQuotes,
-  // ConfirmationBox,
-} from './src/utils.js';
+
 import { LoginLogoutStyle } from './login-logout.style.js';
 import UserDetails from './user-details.js';
-// import ConfirmationBox from './src/confirmation-box.js';
-// import ConfirmationBox from './src/confirmation-box.js';
-// import '@confirmation-box.js';
 // import '@ing-web/define/icons.js';
 // import { customElement } from 'lit/decorators.js';
-
+document.addEventListener('loggedIn', () => {
+  new UserDetails().render();
+});
+document.addEventListener('loggedOut', () => {
+  new UserDetails().render();
+});
 // @customElement('app-login')
 export class LoginLogout extends LitElement {
   static get scopedElements() {
     return {
-      // 'lion-input': LionInput,
       // 'lion-button': LionButton,
       // 'confirmation-box': ConfirmationBox,
       // 'ing-icon': IngIcons,
+      // 'lion-icon': LionIcon,
+      // 'ing-icon': IngIcon,
       'user-details': UserDetails,
     };
   }
@@ -53,8 +52,36 @@ export class LoginLogout extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.persistedData();
+    // this.document.addEvent
     // this.handleUserDetails();
+    // document.addEventListener(
+    //   'show-user-details',
+    //   this.showUserDetails.bind(this) //de mutat in user details si testat
+    // );
   }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    // document.removeEventListener(
+    //   'show-user-details',
+    //   this.showUserDetails.bind(this)
+    // );
+  }
+
+  // }
+
+  // showUserDetails(e) {
+  //   debugger;
+  //   // this.onAccept = e.detail.onAccept;
+  //   // this.onReject = e.detail.onReject;
+  //   // this.title = e.detail.title;
+  //   // this.content = e.detail.content;
+  //   // this.active = true;
+  //   // this.showDescription = e.detail.showDescription || false;
+  //   // this.description = '';
+  //   // this.isDisabledCallback = e.detail.isDisabledCallback;
+  //   console.log(e.detail);
+  // }
 
   // handleUserDetails() {
   //   this.querySelector('a').addEventListener('click', event => {
@@ -81,7 +108,7 @@ export class LoginLogout extends LitElement {
     // Mocking login success
 
     return this.dispatchEvent(
-      new CustomEvent('login-success', { bubbles: true, composed: true })
+      new CustomEvent('loggedIn', { bubbles: true, composed: true })
     );
   }
 
@@ -111,15 +138,27 @@ export class LoginLogout extends LitElement {
   }
 
   handleLogout() {
-    sessionStorage.clear();
+    // debugger;
+    // this.querySelector('#logout').addEventListener //deja pus
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('password');
     this.username = null;
     this.password = null;
+    sessionStorage.clear();
+    this.requestUpdate();
+    // window.location.reload(); // hard refresh
+    return this.dispatchEvent(
+      new CustomEvent('loggedOut', { bubbles: true, composed: true })
+    );
   }
 
   isLoggedIn() {
     if (this.username && this.password) {
       return true;
     }
+    // this.dispatchEvent(
+    //   new CustomEvent('loggedOut', { bubbles: true, composed: true })
+    // );
     return false;
   }
 
@@ -134,71 +173,35 @@ export class LoginLogout extends LitElement {
     return nothing;
   }
 
-  getUserDetails() {
-    // console.log('inside user details');
-    // const userElem = this.shadowRoot.getElementById('userDetails');
-    // console.log(userElem);
-    console.log('aici'); // does not render the user details
-    return html`
-      ${this.isLoggedIn() ? html` <user-details>Hey!</user-details>` : nothing}
-    `;
-    // return true;
-  }
-
   render() {
     return html`
       ${this.isLoggedIn()
         ? html`<nav class="ing-header">
-              <div style="width:300px"><h1>Minimalistic POC App</h1></div>
-              <div class="nav-container">
-                <lion-button id="userDetails" style="background-color:transparent" @click="${
-                  this.getUserDetails
-                }">Hello ${this.username}!</lion-button>
-                <lion-button class="btn" id="modalBtn"
-                 
-                  @click="${this.handleModalLogout}"
-                  >Logout</lion-button
-                >
-                <div id="myModal" class="modal">
+              <div style="width:300px">
+              <h1>Minimalistic POC App</h1>
+            </div>
+            <div class="nav-container">
+              <lion-button class="btn" id="modalBtn"
+              @click="${this.handleModalLogout}"
+              >Logout</lion-button
+              >
+              <div id="myModal" class="modal">
                   <!-- Modal content -->
                   <div class="modal-content">
                     <span id="close" class="close">&times;</span>
                     <p style="display: flex;justify-content: center;">Are you sure you want to logout?</p>
                     <div style="display: flex;justify-content: center;">
-                      <lion-button id="logout" class="btn" @click="${
-                        this.handleLogout
-                      }">Yes</lion-button>
-                      <lion-button id="logout" style="border-radius:8px; margin-left:8px" @click="${
-                        this.handleReturn
-                      }">No</lion-button>
+                      <lion-button id="logout" class="btn" @click="${this.handleLogout}">Yes</lion-button>
+                      <lion-button id="logout" style="border-radius:8px; margin-left:8px" @click="${this.handleReturn}">No</lion-button>
                     </div>
                    </div>
                   </div>
-               
                 </div>
               </div>
             </nav>
-            <main>
-              <div class="card-container">
-                <p>Your inspiration for today, ${this.username}! Enjoy!</p>
-                <div class="card-list">
-                ${Object.values(wiseQuotes).map(
-                  quote => html` <div class="card-item">${quote}</div> `
-                )}
-                  </div>
-                </div>
-              </div>
-            </main>`
+            `
         : html`<div class="login-container">
             <div class="login-text">
-              <!-- <ing-icon icon-id="ing:filledin-apps:identifier"></ing-icon> -->
-              <!-- <lion-icon icon-id="lion:space:alienSpaceship"></lion-icon> -->
-              <lion-icon
-                icon-id="lion:space:rocket"
-                aria-label="rocket"
-                aria-hidden="false"
-                role="img"
-              ></lion-icon>
               <h2>LOGIN</h2>
               <p>
                 Hey, you awesome, this is the start of a new great day! Ready to
@@ -209,7 +212,7 @@ export class LoginLogout extends LitElement {
               style="padding:12px 0"
               id="username"
               placeholder="Username"
-              aria-required
+              aria-required="true"
             ></lion-input>
             <lion-input
               id="password"
@@ -229,5 +232,5 @@ export class LoginLogout extends LitElement {
     `;
   }
 }
-// export default LoginLogout;
+
 customElements.define('login-logout', LoginLogout);
