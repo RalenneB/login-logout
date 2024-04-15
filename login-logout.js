@@ -20,11 +20,6 @@ document.addEventListener('loggedOut', () => {
 export class LoginLogout extends LitElement {
   static get scopedElements() {
     return {
-      // 'lion-button': LionButton,
-      // 'confirmation-box': ConfirmationBox,
-      // 'ing-icon': IngIcons,
-      // 'lion-icon': LionIcon,
-      // 'ing-icon': IngIcon,
       'user-details': UserDetails,
     };
   }
@@ -200,7 +195,7 @@ export class LoginLogout extends LitElement {
               </div>
             </nav>
             `
-        : html`<div class="login-container">
+        : html`<div class="login-container" id="login-container">
             <div class="login-text">
               <h2>LOGIN</h2>
               <p>

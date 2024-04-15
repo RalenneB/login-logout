@@ -30,3 +30,8 @@ export const dispatchCustomEvent = (thisReference, eventType, detail) => {
 };
 
 export const getUser = () => sessionStorage.getItem('username') || null;
+
+export const sleep = d =>
+  new Promise(r => {
+    setTimeout(r, d);
+  });

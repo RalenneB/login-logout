@@ -1,1 +1,1 @@
-export { LoginLogout } from './src/login-logout.js';
+export { LoginLogout } from './login-logout.js';
