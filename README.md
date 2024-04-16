@@ -1,6 +1,12 @@
 # \<login-logout>
 
 This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
+This project is still under development as a test application.
+It has multiple ways of working with components, with imports and still hackish solution for the state
+handling, and in tackling web-components and lit limitations like nested components and components reactive desired behavior.
+The app is made of a parent js file, the login-logout which renders, conditionally, either the login template, or the navbar corresponding to a user being granted access;
+The user details is a separate component that listens to loggedIn and loggedOut custom events, by getting some division from the parent index.html already defined elements and manipulating those so the state of the app is guarded (no 'hard reset' needed, ex. window.location.reload());
+Still, some elements needs refactoring, this is just a POC.
 
 ## Installation
 
@@ -59,7 +65,6 @@ To build a production version of Storybook, run
 ```bash
 npm run storybook:build
 ```
-
 
 ## Tooling configs
 
