@@ -27,7 +27,6 @@ describe('LoginLogout', () => {
     el.shadowRoot.querySelectorAll('lion-input')[0].modelValue = '';
     el.shadowRoot.querySelectorAll('lion-input')[1].modelValue = '';
     ('nottherealpass');
-    // const alertSpy = sinon.spy(window, 'alert');
     const alertStub = sinon
       .stub(window, 'alert')
       .callsFake(() => Promise.resolve());
@@ -49,7 +48,6 @@ describe('LoginLogout', () => {
   it('should not login with wrong credentials', async () => {
     await sleep(10);
     const el = await fixture(html`<login-logout></login-logout>`);
-    console.log(el);
     el.shadowRoot.querySelectorAll('lion-input')[0].modelValue = 'user';
     el.shadowRoot.querySelectorAll('lion-input')[1].modelValue =
       'nottherealpass';
@@ -71,8 +69,6 @@ describe('LoginLogout', () => {
 
   it('should login with right credentials', async () => {
     const el = await fixture(html`<login-logout></login-logout>`);
-    const loginContainer = el.shadowRoot.getElementById('login-container');
-    console.log(loginContainer);
     el.shadowRoot.querySelectorAll('lion-input')[0].modelValue =
       credentials.username;
     el.shadowRoot.querySelectorAll('lion-input')[1].modelValue =
