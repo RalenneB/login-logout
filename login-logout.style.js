@@ -34,7 +34,7 @@ export const LoginLogoutStyle = [
     .username-input {
       padding: 12px 0;
     }
-    .login-btn {
+    .log-btn {
       background-color: #ff6f00;
       color: white;
       border-radius: 8px;

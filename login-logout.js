@@ -153,7 +153,7 @@ export class LoginLogout extends LitElement {
               type="password"
             ></lion-input>
             <div class="login-btn">
-              <lion-button class="btn login-btn" @click="${this.handleLogin}"
+              <lion-button class="btn log-btn" @click="${this.handleLogin}"
                 >Login</lion-button
               >
             </div>
