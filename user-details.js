@@ -1,4 +1,4 @@
-import { LitElement, css } from 'lit';
+import { LitElement, css, html } from 'lit';
 import { getUser, wiseQuotes } from './src/utils.js';
 
 export class UserDetails extends LitElement {
@@ -19,8 +19,6 @@ export class UserDetails extends LitElement {
       #userDetailsDiv {
         font-family: INGMe, sans-serif;
         color: rgb(76 74 74);
-        /* padding: 12px; */
-        /* margin: 12px; */
         list-style-type: none;
         display: grid;
         gap: 1rem;
@@ -31,7 +29,6 @@ export class UserDetails extends LitElement {
       #userDetailsContent {
         font-family: INGMe, sans-serif;
         color: rgb(76 74 74);
-        /* padding: 12px; */
         margin: 12px;
       }
     `;
@@ -45,44 +42,39 @@ export class UserDetails extends LitElement {
 
   constructor() {
     super();
-    this.username = getUser();
+    this.username = getUser(); // it persists from the session storage, otherwise on each refresh it becomes empty
+  }
+
+  _loginListener(e) {
+    this.username = e.detail;
+    this.requestUpdate();
+  }
+
+  _logoutListener() {
+    this.username = null;
+    this.requestUpdate();
   }
 
   render() {
-    const userDetailsContentDiv = document.getElementById('userDetailsContent');
-    const userDetailsDiv = document.getElementById('userDetails');
-
-    if (userDetailsDiv && userDetailsContentDiv) {
-      userDetailsDiv.innerHTML = '';
-      if (this.username) {
-        userDetailsContentDiv.textContent = `Welcome, ${this.username}! Your inspiration for today awaits!`;
-        userDetailsContentDiv.style.fontFamily = 'INGMe, sans-serif';
-        userDetailsContentDiv.style.padding = '12px';
-        userDetailsContentDiv.style.margin = '12px';
-
-        userDetailsDiv.style.fontFamily = 'INGMe, sans-serif';
-        userDetailsDiv.style.color = 'rgb(76 74 74)';
-        userDetailsDiv.style.padding = '12px';
-        userDetailsDiv.style.margin = '12px';
-
-        // eslint-disable-next-line array-callback-return, array-callback-return
-        Object.entries(wiseQuotes).map(([, value]) => {
-          const detailDiv = document.createElement('div');
-          detailDiv.textContent = `${value}`;
-          detailDiv.style.margin = '12px 0';
-          detailDiv.style.width = '350px';
-          detailDiv.style.backgroundColor = '#fff1e5';
-          detailDiv.style.borderRadius = '8px';
-          detailDiv.style.boxShadow = `0 2px 2px 0 rgba(0, 0, 0, 0.14),
-          0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2)`;
-
-          userDetailsDiv.appendChild(detailDiv);
-        });
-      } else {
-        userDetailsDiv.innerHTML = '';
-        userDetailsContentDiv.innerHTML = '';
-      }
-    }
+    return html`
+      <p
+        style="margin-top:0"
+        @loggedIn=${this._loginListener}
+        @loggedOut="${this._logoutListener}"
+      >
+        <slot> </slot>
+      </p>
+      ${this.username
+        ? html` <div id="userDetailsContent">
+            Welcome, dear ${this.username}!
+            <div id="userDetailsDiv">
+              ${Object.entries(wiseQuotes).map(
+                ([, value]) => html`<div class="divContainer">${value}</div>`
+              )}
+            </div>
+          </div>`
+        : ''}
+    `;
   }
 }
 

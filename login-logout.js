@@ -6,13 +6,6 @@ import '@lion/ui/define/lion-input.js';
 import { LoginLogoutStyle } from './login-logout.style.js';
 import { UserDetails } from './user-details.js';
 
-document.addEventListener('loggedIn', () => {
-  new UserDetails().render();
-});
-document.addEventListener('loggedOut', () => {
-  new UserDetails().render();
-});
-
 export class LoginLogout extends LitElement {
   static get scopedElements() {
     return {
@@ -37,15 +30,16 @@ export class LoginLogout extends LitElement {
     this.password = sessionStorage.getItem('password') || null;
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-  }
+  // connectedCallback() {
+  //   super.connectedCallback();
+  // }
 
-  disconnectedCallback() {
-    super.disconnectedCallback();
-  }
+  // disconnectedCallback() {
+  //   super.disconnectedCallback();
+  // }
 
-  handleLogin() {
+  // eslint-disable-next-line consistent-return
+  async handleLogin() {
     const username = this.shadowRoot.getElementById('username').modelValue;
     const password = this.shadowRoot.getElementById('password').modelValue;
 
@@ -60,14 +54,23 @@ export class LoginLogout extends LitElement {
 
     sessionStorage.setItem('username', this.username);
     sessionStorage.setItem('password', this.password);
+    this.requestUpdate(); // not ok
     this.username = sessionStorage.getItem('username');
     this.password = sessionStorage.getItem('password');
+    this.requestUpdate();
 
     // Implement login functionality
     // Mocking login success
 
-    return this.dispatchEvent(
-      new CustomEvent('loggedIn', { bubbles: true, composed: true })
+    await this.updateComplete;
+    this.requestUpdate();
+
+    this.dispatchEvent(
+      new CustomEvent('loggedIn', {
+        bubbles: true,
+        composed: true,
+        detail: this.username,
+      })
     );
   }
 
@@ -88,13 +91,14 @@ export class LoginLogout extends LitElement {
     modal.style.display = 'none';
   }
 
-  handleLogout() {
+  async handleLogout() {
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('password');
     this.username = null;
     this.password = null;
     sessionStorage.clear();
-    this.requestUpdate();
+    // this.requestUpdate();
+    await this.updateComplete;
     return this.dispatchEvent(
       new CustomEvent('loggedOut', { bubbles: true, composed: true })
     );
