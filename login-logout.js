@@ -1,30 +1,21 @@
 import { LitElement, html } from 'lit';
-// import { LionButton, LionInput, LionButtonSubmit } from '@lion/ui/button.js';
 import '@lion/ui/define/lion-button.js';
 import '@lion/ui/define/lion-button-submit.js';
 import '@lion/ui/define/lion-input.js';
-// import '@lion/ui/define/lion-icon.js';
-import { nothing } from 'lit-html';
 
 import { LoginLogoutStyle } from './login-logout.style.js';
-import UserDetails from './user-details.js';
-// import '@ing-web/define/icons.js';
-// import { customElement } from 'lit/decorators.js';
+import { UserDetails } from './user-details.js';
+
 document.addEventListener('loggedIn', () => {
   new UserDetails().render();
 });
 document.addEventListener('loggedOut', () => {
   new UserDetails().render();
 });
-// @customElement('app-login')
+
 export class LoginLogout extends LitElement {
   static get scopedElements() {
     return {
-      // 'lion-button': LionButton,
-      // 'confirmation-box': ConfirmationBox,
-      // 'ing-icon': IngIcons,
-      // 'lion-icon': LionIcon,
-      // 'ing-icon': IngIcon,
       'user-details': UserDetails,
     };
   }
@@ -51,45 +42,11 @@ export class LoginLogout extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.persistedData();
-    // this.document.addEvent
-    // this.handleUserDetails();
-    // document.addEventListener(
-    //   'show-user-details',
-    //   this.showUserDetails.bind(this) //de mutat in user details si testat
-    // );
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    // document.removeEventListener(
-    //   'show-user-details',
-    //   this.showUserDetails.bind(this)
-    // );
   }
-
-  // }
-
-  // showUserDetails(e) {
-  //   debugger;
-  //   // this.onAccept = e.detail.onAccept;
-  //   // this.onReject = e.detail.onReject;
-  //   // this.title = e.detail.title;
-  //   // this.content = e.detail.content;
-  //   // this.active = true;
-  //   // this.showDescription = e.detail.showDescription || false;
-  //   // this.description = '';
-  //   // this.isDisabledCallback = e.detail.isDisabledCallback;
-  //   console.log(e.detail);
-  // }
-
-  // handleUserDetails() {
-  //   this.querySelector('a').addEventListener('click', event => {
-  //     event.preventDefault();
-  //     const route = event.target.getAttribute('data-route');
-  //     window.location.hash = `${route}`;
-  //   });
-  // }
 
   handleLogin() {
     const username = this.shadowRoot.getElementById('username').modelValue;
@@ -103,7 +60,12 @@ export class LoginLogout extends LitElement {
     }
     this.username = username;
     this.password = password;
-    this.persistedData();
+
+    sessionStorage.setItem('username', this.username);
+    sessionStorage.setItem('password', this.password);
+    this.username = sessionStorage.getItem('username');
+    this.password = sessionStorage.getItem('password');
+
     // Implement login functionality
     // Mocking login success
 
@@ -122,14 +84,6 @@ export class LoginLogout extends LitElement {
     span.onclick = function () {
       modal.style.display = 'none';
     };
-
-    // When the user clicks anywhere outside of the modal, close it
-    // doesnt work
-    window.onclick = function (event) {
-      if (event.target === modal) {
-        modal.style.display = 'none';
-      }
-    };
   }
 
   handleReturn() {
@@ -138,15 +92,12 @@ export class LoginLogout extends LitElement {
   }
 
   handleLogout() {
-    // debugger;
-    // this.querySelector('#logout').addEventListener //deja pus
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('password');
     this.username = null;
     this.password = null;
     sessionStorage.clear();
     this.requestUpdate();
-    // window.location.reload(); // hard refresh
     return this.dispatchEvent(
       new CustomEvent('loggedOut', { bubbles: true, composed: true })
     );
@@ -156,21 +107,7 @@ export class LoginLogout extends LitElement {
     if (this.username && this.password) {
       return true;
     }
-    // this.dispatchEvent(
-    //   new CustomEvent('loggedOut', { bubbles: true, composed: true })
-    // );
     return false;
-  }
-
-  persistedData() {
-    // debugger;
-    if (this.username && this.password) {
-      sessionStorage.setItem('username', this.username);
-      sessionStorage.setItem('password', this.password);
-      this.username = sessionStorage.getItem('username');
-      this.password = sessionStorage.getItem('password');
-    }
-    return nothing;
   }
 
   render() {
@@ -200,7 +137,7 @@ export class LoginLogout extends LitElement {
               </div>
             </nav>
             `
-        : html`<div class="login-container">
+        : html`<div class="login-container" id="login-container">
             <div class="login-text">
               <h2>LOGIN</h2>
               <p>
@@ -212,13 +149,11 @@ export class LoginLogout extends LitElement {
               style="padding:12px 0"
               id="username"
               placeholder="Username"
-              aria-required="true"
             ></lion-input>
             <lion-input
               id="password"
               placeholder="Password"
               type="password"
-              aria-required
             ></lion-input>
             <div class="login-btn">
               <lion-button

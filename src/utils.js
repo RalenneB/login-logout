@@ -1,5 +1,3 @@
-// import { html, nothing } from 'ing-web';
-
 export const wiseQuotes = {
   quote:
     'I declare that no accomplishment has substance nearly as great as the road used to achieve it. We are not creatures of destinations. It is the journey that shapes us. Our callused feet, our backs strong from carrying the weight of our travels, our eyes open with the fresh delight of experiences lived.',
@@ -19,14 +17,9 @@ export const wiseQuotes = {
     'Somebody has to start. Somebody has to step forward and do what is right, because it is right.',
 };
 
-export const dispatchCustomEvent = (thisReference, eventType, detail) => {
-  thisReference.dispatchEvent(
-    new CustomEvent(eventType, {
-      detail,
-      bubbles: true,
-      composed: true,
-    })
-  );
-};
-
 export const getUser = () => sessionStorage.getItem('username') || null;
+
+export const sleep = d =>
+  new Promise(r => {
+    setTimeout(r, d);
+  });
