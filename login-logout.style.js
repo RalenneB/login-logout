@@ -9,13 +9,37 @@ export const LoginLogoutStyle = [
       font-size: 14px;
       padding: 8px;
     }
-    .ing-header {
+    .header {
       display: flex;
       padding: 25px;
       background-color: #e9e9e9;
       align-items: center;
-      /* color: var(--login-logout-text-color, #000); */
     }
+
+    .header-elem {
+      width: 300px;
+    }
+    .p-elem {
+      display: flex;
+      justify-content: center;
+    }
+    .modal-div {
+      display: flex;
+      justify-content: center;
+    }
+    .return {
+      border-radius: 8px;
+      margin-left: 8px;
+    }
+    .username-input {
+      padding: 12px 0;
+    }
+    .login-btn {
+      background-color: #ff6f00;
+      color: white;
+      border-radius: 8px;
+    }
+
     .card-container {
       padding: 12px;
     }

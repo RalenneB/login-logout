@@ -28,9 +28,6 @@ export class LoginLogout extends LitElement {
     return {
       username: String,
       password: String,
-      modal: Object,
-      btn: Object,
-      span: Object,
     };
   }
 
@@ -113,8 +110,8 @@ export class LoginLogout extends LitElement {
   render() {
     return html`
       ${this.isLoggedIn()
-        ? html`<nav class="ing-header">
-              <div style="width:300px">
+        ? html`<nav class="header">
+              <div class="header-elem">
               <h1>Minimalistic POC App</h1>
             </div>
             <div class="nav-container">
@@ -126,10 +123,10 @@ export class LoginLogout extends LitElement {
                   <!-- Modal content -->
                   <div class="modal-content">
                     <span id="close" class="close">&times;</span>
-                    <p style="display: flex;justify-content: center;">Are you sure you want to logout?</p>
-                    <div style="display: flex;justify-content: center;">
+                    <p class="p-elem" >Are you sure you want to logout?</p>
+                    <div class="modal-div">
                       <lion-button id="logout" class="btn" @click="${this.handleLogout}">Yes</lion-button>
-                      <lion-button id="logout" style="border-radius:8px; margin-left:8px" @click="${this.handleReturn}">No</lion-button>
+                      <lion-button id="logout" class="return" @click="${this.handleReturn}">No</lion-button>
                     </div>
                    </div>
                   </div>
@@ -146,7 +143,7 @@ export class LoginLogout extends LitElement {
               </p>
             </div>
             <lion-input
-              style="padding:12px 0"
+              class="username-input"
               id="username"
               placeholder="Username"
             ></lion-input>
@@ -156,10 +153,7 @@ export class LoginLogout extends LitElement {
               type="password"
             ></lion-input>
             <div class="login-btn">
-              <lion-button
-                class="btn"
-                style="background-color: #ff6f00;color: white;border-radius: 8px;"
-                @click="${this.handleLogin}"
+              <lion-button class="btn login-btn" @click="${this.handleLogin}"
                 >Login</lion-button
               >
             </div>
